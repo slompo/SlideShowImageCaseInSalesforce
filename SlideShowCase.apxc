@@ -1,3 +1,7 @@
+/*
+ * @Author: Durval Slompo Junior
+ * Controller to show SlideShow of images from Case object
+ */
 public class SlideShowCase {    
     public String tmp {get; set;}
     
