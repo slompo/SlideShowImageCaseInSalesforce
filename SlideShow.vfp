@@ -1,0 +1,16 @@
+<!-- @Author: Durval Slompo Junior
+		Visual Force Page to show SlideShow of images from Case
+-->
+<apex:page sidebar="false" standardController="Case" extensions="SlideShowCopacol">
+    <apex:form >
+        <center>
+            <apex:image url="{!tmp}"/>
+            <br/>
+            <br/>
+            {!posicao} de {!size}
+            <br/>
+            <apex:commandButton action="{!prev}" value="Previous"/>&nbsp;&nbsp;&nbsp;
+            <apex:commandButton action="{!nxt}" value="Next"/>    
+        </center>
+  </apex:form>
+</apex:page>
