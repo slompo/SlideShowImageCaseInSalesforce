@@ -1,7 +1,7 @@
 <!-- @Author: Durval Slompo Junior
 		Visual Force Page to show SlideShow of images from Case
 -->
-<apex:page sidebar="false" standardController="Case" extensions="SlideShowCase">
+<apex:page lightningStylesheets="true" sidebar="false" standardController="Case" extensions="SlideShowCase">
     <apex:form >
         <center>
             <apex:image url="{!tmp}"/>
