@@ -1,0 +1,58 @@
+public class SlideShowCase {    
+    public String tmp {get; set;}
+    
+    private final Case caso;
+    private Integer posicao = 0;
+    private List<ContentVersion> idContentVersions;
+    
+    public Integer getPosicao(){
+        return posicao + 1;
+    }
+    
+    public Integer getSize(){
+        return idContentVersions.size();
+    }
+    
+    public SlideShowCase(ApexPages.StandardController stdController) {
+        this.caso = (Case)stdController.getRecord();
+    	init();
+    }
+    
+    public void init(){
+        List<ContentDocumentLink> docs = 
+                [SELECT Id, LinkedEntityId, ContentDocumentId, Visibility, IsDeleted, ShareType,
+                ContentDocument.Title, ContentDocument.createdDate, ContentDocument.FileType
+                FROM ContentDocumentLink WHERE LinkedEntityId = :caso.Id]; 
+        
+        List<String> idContentDocuments = new List<String>();
+        for(ContentDocumentLink cdl : docs){
+            System.debug(cdl.ContentDocumentId);
+            idContentDocuments.add(cdl.ContentDocumentId);
+        }
+        idContentVersions = [select Id from ContentVersion where ContentDocumentId in :idContentDocuments
+                             and FileExtension IN ('png', 'jpg', 'jpeg', 'bmp')];
+        if(idContentVersions.size()>0){
+            ContentVersion cv = idContentVersions.get(0);
+            tmp = '../sfc/servlet.shepherd/version/download/' + cv.Id;
+        }
+    }
+    
+    public void prev()
+    {
+        if(posicao != 0){
+            posicao = posicao - 1;
+            ContentVersion cv = idContentVersions.get(posicao);
+            tmp = '../sfc/servlet.shepherd/version/download/' + cv.Id;
+        }
+    }   
+
+    public void nxt()
+    {  
+        if(posicao != (idContentVersions.size()-1))
+        {
+            posicao = posicao + 1;
+            ContentVersion cv = idContentVersions.get(posicao);
+            tmp = '../sfc/servlet.shepherd/version/download/' + cv.Id;
+        } 
+    }
+}
